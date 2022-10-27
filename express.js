@@ -59,8 +59,8 @@ passport.use(new LocalStrategy(
     }
 ));
 
+//GET method /is_auth
 app.get('/is_auth', function (req, res) {
-    //res.sendFile( __dirname + "/" + "index.html" );
     if(req.session.passport && req.session.passport.user){
         res.send('true 用戶' + req.user.username + '已登入');
       }else{
@@ -68,6 +68,7 @@ app.get('/is_auth', function (req, res) {
     }
 })
 
+//POST method /login
 app.post('/login', function(req, res, next){
     console.log(req.session)
     passport.authenticate('local', function(err, user, info) {
@@ -81,18 +82,21 @@ app.post('/login', function(req, res, next){
     })(req, res, next);
 });
 
-app.post('/logout', function(req, res, next) {
+//GET method /logout
+app.get('/logout', function(req, res, next) {
     req.logout(function(err) {
       if (err) { return next(err); }
       req.session.destroy()
       res.redirect('/');
     });
 });
-  
+
+//GET method /hello
 app.get('/hello', function (req, res) {
       res.send("Hello World");
 })
-  
+
+//POST method /sortnum
 let num = [3, 1, 12, 99, 32, 7];
   app.post('/sortnum', function (req, res) {
       res.send("Sort array : " + num.sort(function(a,b){return a-b}));
